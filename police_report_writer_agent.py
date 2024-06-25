@@ -31,6 +31,10 @@ def run_report_writer_agent(transcript):
     # get the response from the first agent
     response = ollama.chat(model="llama3", messages=[
       {
+        "role": "system",
+        "content": system_prompt
+      },
+      {
         "role": "user",
         "content": prompt
       }
