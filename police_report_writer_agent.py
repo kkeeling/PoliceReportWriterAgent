@@ -13,14 +13,15 @@ except Exception as e:
 # set the prompt for the first agent
 prompt_01 = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
 
-print(f"{Fore.WHITE}{prompt_01}{Style.RESET_ALL}")
+print(f"{Fore.RED}<agent-01> Prompt: {prompt_01}{Style.RESET_ALL}")
 print("\n\n")
-print(f"{Fore.GREEN}Generating a response...{Style.RESET_ALL}")
+print(f"{Fore.GREEN}<agent-01> Generating a response...{Style.RESET_ALL}")
 
-response = ollama.chat(model="llama3", messages=[
+# get the response from the first agent
+agent_01_response = ollama.chat(model="llama3", messages=[
   {
     "role": "user",
-    "content": "Hello, world!"
+    "content": prompt_01
   }
 ])
-print(response)
+print(agent_01_response)
