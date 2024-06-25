@@ -1,5 +1,7 @@
 import ollama
 from colorama import Fore, Style
+import sys
+import speech_recognition as sr
 
 def run_report_writer_agent(transcript):
     system_prompt = ""
@@ -22,7 +24,7 @@ def run_report_writer_agent(transcript):
         exit(1)
 
     # set the prompt for the first agent
-    prompt = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
+    prompt = f'{report_writing_standards} #### Create a report based on the transcript provided. <transcript>{transcript}</transcript>'
 
     print(f"{Fore.RED}<agent-01> Prompt: {prompt}{Style.RESET_ALL}")
     print("\n\n")
@@ -40,7 +42,24 @@ def run_report_writer_agent(transcript):
       }
     ])
     print(response)
-import sys
+
+def transcribe_audio(audio_file_path):
+    # Initialize the recognizer
+    recognizer = sr.Recognizer()
+
+    # Load the audio file
+    with sr.AudioFile(audio_file_path) as source:
+        # Read the audio data
+        audio = recognizer.record(source)
+
+    try:
+        # Perform speech recognition using Google Speech Recognition
+        transcription = recognizer.recognize_google(audio)
+        return transcription
+    except sr.UnknownValueError:
+        return "Speech recognition could not understand the audio"
+    except sr.RequestError as e:
+        return f"Could not request results from speech recognition service; {e}"
 
 def main():
     if len(sys.argv) != 2:
