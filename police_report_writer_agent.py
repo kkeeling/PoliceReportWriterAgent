@@ -66,14 +66,9 @@ def main():
         print("Usage: python police_report_writer_agent.py <audio_file_path>")
         exit(1)
     
-    try:
-        with open("sample_transcript.txt", "r") as file:
-            transcript = file.read()
-        print("Transcript loaded successfully.")
-    except Exception as e:
-        print(f"Failed to load transcript: {e}")
-        exit(1)
-    
+    audio_file_path = sys.argv[1]
+    transcript = transcribe_audio(audio_file_path)
+    print("Transcription completed successfully.")
     run_report_writer_agent(transcript)
 
 if __name__ == "__main__":
