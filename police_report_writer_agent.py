@@ -1,6 +1,14 @@
 import ollama
 from colorama import Fore, Style
 
+system_prompt = ""
+try:
+    with open("system_prompt.md", "r") as file:
+        system_prompt = file.read()
+    print("System prompt loaded successfully.")
+except Exception as e:
+    print(f"Failed to load system prompt: {e}")
+
 report_writing_standards = ""
 
 try:
