@@ -8,6 +8,7 @@ try:
     print("System prompt loaded successfully.")
 except Exception as e:
     print(f"Failed to load system prompt: {e}")
+    exit(1)
 
 report_writing_standards = ""
 
@@ -17,6 +18,7 @@ try:
     print("Writing standards loaded successfully.")
 except Exception as e:
     print(f"Failed to load writing standards: {e}")
+    exit(1)
 
 # set the prompt for the first agent
 prompt_01 = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
