@@ -36,3 +36,15 @@ def run_report_writer_agent(transcript):
       }
     ])
     print(response)
+import sys
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python police_report_writer_agent.py <transcript>")
+        exit(1)
+    
+    transcript = sys.argv[1]
+    run_report_writer_agent(transcript)
+
+if __name__ == "__main__":
+    main()
