@@ -44,7 +44,9 @@ def run_report_writer_agent(transcript):
         "content": prompt
       }
     ])
-    print(response)
+    with open("report.txt", "w") as report_file:
+        report_file.write(response["message"]["content"])
+    print("Response written to report.txt")
 
 def transcribe_audio(audio_file_path):
     # Check if the file exists
