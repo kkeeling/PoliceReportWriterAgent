@@ -8,7 +8,9 @@ try:
     print("Writing standards loaded successfully.")
 except Exception as e:
     print(f"Failed to load writing standards: {e}")
-    report_writing_standards = ""
+
+# set the prompt for the first agent
+prompt_01 = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
 
 response = ollama.chat(model="llama3", messages=[
   {
