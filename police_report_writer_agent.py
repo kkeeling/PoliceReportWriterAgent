@@ -1,7 +1,10 @@
 import ollama
 from colorama import Fore, Style
 import sys
-import speech_recognition as sr
+import os
+import subprocess
+import whisper
+from pydub import AudioSegment
 
 def run_report_writer_agent(transcript):
     system_prompt = ""
@@ -44,22 +47,38 @@ def run_report_writer_agent(transcript):
     print(response)
 
 def transcribe_audio(audio_file_path):
-    # Initialize the recognizer
-    recognizer = sr.Recognizer()
+    # Check if the file exists
+    if not os.path.isfile(audio_file_path):
+        raise FileNotFoundError(f"The file {audio_file_path} does not exist.")
 
-    # Load the audio file
-    with sr.AudioFile(audio_file_path) as source:
-        # Read the audio data
-        audio = recognizer.record(source)
+    # Get the file extension
+    _, file_extension = os.path.splitext(audio_file_path)
 
-    try:
-        # Perform speech recognition using Google Speech Recognition
-        transcription = recognizer.recognize_google(audio)
-        return transcription
-    except sr.UnknownValueError:
-        return "Speech recognition could not understand the audio"
-    except sr.RequestError as e:
-        return f"Could not request results from speech recognition service; {e}"
+    # If the file is not in WAV format, convert it using FFmpeg
+    if file_extension.lower() != '.wav':
+        output_path = audio_file_path.rsplit('.', 1)[0] + '.wav'
+        
+        try:
+            # Use FFmpeg to convert the audio to WAV format
+            subprocess.run(['ffmpeg', '-i', audio_file_path, '-acodec', 'pcm_s16le', '-ar', '16000', output_path], 
+                           check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError:
+            raise RuntimeError("Error occurred while converting the audio file.")
+        
+        audio_file_path = output_path
+
+    # Load the Whisper model
+    model = whisper.load_model("base")
+
+    # Transcribe the audio
+    result = model.transcribe(audio_file_path)
+
+    # Clean up the temporary WAV file if it was created
+    if output_path and os.path.isfile(output_path):
+        os.remove(output_path)
+
+    # Return the transcription
+    return result["text"]
 
 def main():
     if len(sys.argv) != 2:
