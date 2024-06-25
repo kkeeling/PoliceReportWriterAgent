@@ -2,15 +2,14 @@ import ollama
 from colorama import Fore, Style
 
 system_prompt = ""
+report_writing_standards = ""
+
 try:
     with open("system_prompt.md", "r") as file:
         system_prompt = file.read()
     print("System prompt loaded successfully.")
 except Exception as e:
     print(f"Failed to load system prompt: {e}")
-    exit(1)
-
-report_writing_standards = ""
 
 try:
     with open("report_writing_standards.md", "r") as file:
@@ -18,7 +17,6 @@ try:
     print("Writing standards loaded successfully.")
 except Exception as e:
     print(f"Failed to load writing standards: {e}")
-    exit(1)
 
 # set the prompt for the first agent
 prompt_01 = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
