@@ -1,5 +1,7 @@
 import ollama
 
+report_writing_standards = ""
+
 try:
     with open("report_writing_standards.md", "r") as file:
         report_writing_standards = file.read()
