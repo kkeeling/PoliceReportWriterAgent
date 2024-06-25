@@ -40,11 +40,11 @@ import sys
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python police_report_writer_agent.py <transcript>")
+        print("Usage: python police_report_writer_agent.py <audio_file_path>")
         exit(1)
     
-    transcript = sys.argv[1]
-    run_report_writer_agent(transcript)
+    audio_file_path = sys.argv[1]
+    run_report_writer_agent(audio_file_path)
 
 if __name__ == "__main__":
     main()
