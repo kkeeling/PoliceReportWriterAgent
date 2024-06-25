@@ -1,7 +1,7 @@
 import ollama
 from colorama import Fore, Style
 
-def run_agent_01():
+def run_report_writer_agent(transcript):
     system_prompt = ""
     report_writing_standards = ""
 
@@ -22,17 +22,17 @@ def run_agent_01():
         exit(1)
 
     # set the prompt for the first agent
-    prompt_01 = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
+    prompt = f'{report_writing_standards} #### from these standards, identify the most important rules to follow when writing a police report.'
 
-    print(f"{Fore.RED}<agent-01> Prompt: {prompt_01}{Style.RESET_ALL}")
+    print(f"{Fore.RED}<agent-01> Prompt: {prompt}{Style.RESET_ALL}")
     print("\n\n")
     print(f"{Fore.GREEN}<agent-01> Generating a response...{Style.RESET_ALL}")
 
     # get the response from the first agent
-    agent_01_response = ollama.chat(model="llama3", messages=[
+    response = ollama.chat(model="llama3", messages=[
       {
         "role": "user",
-        "content": prompt_01
+        "content": prompt
       }
     ])
-    print(agent_01_response)
+    print(response)
